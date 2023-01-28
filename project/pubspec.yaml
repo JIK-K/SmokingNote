@@ -80,7 +80,7 @@ flutter:
   fonts:
     - family: all
       fonts:
-        - asset: assets/SCDream5.otf
+        - asset: assets/fonts/SCDream5.otf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
