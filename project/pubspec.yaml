@@ -78,7 +78,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: all
+    - family: SCDream5
       fonts:
         - asset: assets/fonts/SCDream5.otf
   #   - family: Schyler
