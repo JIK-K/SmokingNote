@@ -1,4 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'ClockTimer.dart';
+import 'Patience.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,141 +16,106 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: '금연노트',
-        theme: ThemeData(
-            fontFamily: 'SCDream5',
-            scaffoldBackgroundColor: Colors.white /*Color(0xffFFFBE9)*/),
-        home: Scaffold(
-          //Top
-          appBar: AppBar(
-            centerTitle: true,
-            elevation: 0.0,
-            title: Text(
-              '금연노트',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            backgroundColor: Color(0xffAD8B73),
-          ),
+      title: '금연노트',
+      theme: ThemeData(
+          fontFamily: 'SCDream5',
+          scaffoldBackgroundColor: Colors.white /*Color(0xffFFFBE9)*/),
+      home: MainPage(),
+    );
+  }
+}
 
-          //Body
-          body: Column(
-            children: <Widget>[
-              //Picture Area
-              Flexible(
-                  fit: FlexFit.tight,
-                  flex: 4,
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/test12.png'),
-                            fit: BoxFit.fill),
-                        border: Border(
-                            left:
-                                BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                            top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                            right: BorderSide(
-                                width: 4, color: Color(0xffE3CAA5)))),
-                  )),
+class MainPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MainPageState();
+}
 
-              //Smoking Time Area
-              Flexible(
-                flex: 3,
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      border: Border(
-                    left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                    right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                    top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                  )),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          '금연 시간',
-                          style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'years      Days      Hours      Mins      Secs',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        Text(
-                          '00 : 000 : 00 : 00 : 00',
-                          style: TextStyle(fontSize: 30),
-                        ),
-                        Text(
-                          '이제 위에거를 받아서 몇분마다 상태변화가된다는걸적어준다',
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              //Save Time & Money Area
-              Flexible(
-                flex: 1,
-                child: Row(
+class _MainPageState extends State<MainPage> {
+  var patience = Patience();
+  Clock clock = new Clock();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      //Top
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0.0,
+        title: Text(
+          '금연노트',
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Color(0xffAD8B73),
+      ),
+
+      //Body
+      body: Column(
+        children: [
+          //Picture Area
+          Flexible(
+              fit: FlexFit.tight,
+              flex: 4,
+              child: Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/test12.png'),
+                        fit: BoxFit.fill),
+                    border: Border(
+                        left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                        top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                        right: BorderSide(width: 4, color: Color(0xffE3CAA5)))),
+              )),
+
+          //Smoking Time Area
+          Flexible(
+            flex: 3,
+            child: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  border: Border(
+                left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+              )),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    //Save Money Area
-                    Flexible(
-                        child: Container(
-                            padding: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                border: Border(
-                              left: BorderSide(
-                                  width: 4, color: Color(0xffE3CAA5)),
-                              right: BorderSide(
-                                  width: 2, color: Color(0xffE3CAA5)),
-                              top: BorderSide(
-                                  width: 4, color: Color(0xffE3CAA5)),
-                            )),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [Text('절약한 금액'), Text('1000₩')],
-                              ),
-                            ))),
-                    //Spent Money Area
-                    Flexible(
-                        child: Container(
-                            padding: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                border: Border(
-                              left: BorderSide(
-                                  width: 2, color: Color(0xffE3CAA5)),
-                              right: BorderSide(
-                                  width: 4, color: Color(0xffE3CAA5)),
-                              top: BorderSide(
-                                  width: 4, color: Color(0xffE3CAA5)),
-                            )),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [Text('소비한 금액'), Text('112121₩')],
-                              ),
-                            )))
+                    Text(
+                      '금연 시간',
+                      style:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'years      Days      Hours      Mins      Secs',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                    Text(
+                      asyncTimer().toString(),
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    Text(
+                      '이제 위에거를 받아서 몇분마다 상태변화가된다는걸적어준다',
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.grey),
+                    ),
                   ],
                 ),
               ),
-              Flexible(
-                  flex: 1,
-                  child: Row(
-                    children: [
-                      //Save Time Area
-                      Flexible(
-                          child: Container(
+            ),
+          ),
+          //Save Time & Money Area
+          Flexible(
+            flex: 1,
+            child: Row(
+              children: [
+                //Save Money Area
+                Flexible(
+                    child: Container(
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                             border: Border(
@@ -153,154 +124,368 @@ class MyApp extends StatelessWidget {
                           top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
                         )),
                         child: Center(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('절약한 시간'), Text('12시간15분')],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text('절약한 금액'), Text('1000₩')],
+                          ),
+                        ))),
+                //Spent Money Area
+                Flexible(
+                    child: Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            border: Border(
+                          left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                          right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                          top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
                         )),
-                      )),
-                      //Spent Time Area
-                      Flexible(
-                          child: Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                left: BorderSide(
-                                    width: 2, color: Color(0xffE3CAA5)),
-                                right: BorderSide(
-                                    width: 4, color: Color(0xffE3CAA5)),
-                                top: BorderSide(
-                                    width: 4, color: Color(0xffE3CAA5)),
-                              )),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [Text('낭비된 시간'), Text('123시간')],
-                                ),
-                              )))
-                    ],
-                  )),
-              //Icon Button Area
-              Flexible(
-                  flex: 2,
-                  child: Container(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text('소비한 금액'), Text('112121₩')],
+                          ),
+                        )))
+              ],
+            ),
+          ),
+          Flexible(
+              flex: 1,
+              child: Row(
+                children: [
+                  //Save Time Area
+                  Flexible(
+                      child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         border: Border(
                       left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                      right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                      right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
                       top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
                     )),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.indigo,
-                          child: IconButton(
-                            iconSize: 50,
-                            icon:
-                                Icon(Icons.fitness_center, color: Colors.white),
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(),
-                            onPressed: () {
-                              build(context);
-                            },
-                          ),
-                        ),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.orangeAccent,
-                          child: IconButton(
-                            iconSize: 50,
-                            icon: Icon(Icons.sports_bar, color: Colors.white),
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(),
-                            onPressed: () {
-                              build(context);
-                            },
-                          ),
-                        ),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.redAccent,
-                          child: IconButton(
-                            iconSize: 50,
-                            icon:
-                                Icon(Icons.smoking_rooms, color: Colors.white),
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(),
-                            onPressed: () {
-                              build(context);
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                    child: Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('절약한 시간'), Text('12시간15분')],
+                    )),
                   )),
-              //Counting Area
-              Flexible(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                  //Spent Time Area
                   Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
                       child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            border: Border(
-                          top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                          left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                          right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                          bottom:
-                              BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                        )),
-                        child: Center(child: Text('운동몇분누를때마다30분')),
-                      )),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            border: Border(
-                          top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                          left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                          right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                          bottom:
-                              BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                        )),
-                        child: Center(child: Text('술몇잔누를때마다한잔')),
-                      )),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            border: Border(
-                          top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                          left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                          right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                          bottom:
-                              BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                        )),
-                        child: Center(child: Text('담배몇개비필때마다한개비')),
-                      )),
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              border: Border(
+                            left:
+                                BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                            right:
+                                BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                            top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                          )),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [Text('낭비된 시간'), Text('123시간')],
+                            ),
+                          )))
                 ],
               )),
+          //Icon Button Area
+          Flexible(
+              flex: 2,
+              child: Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    border: Border(
+                  left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                  right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                  top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.indigo,
+                      child: IconButton(
+                        iconSize: 50,
+                        icon: Icon(Icons.fitness_center, color: Colors.white),
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        onPressed: () {
+                          healthDialog(context);
+                        },
+                      ),
+                    ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.orangeAccent,
+                      child: IconButton(
+                        iconSize: 50,
+                        icon: Icon(Icons.sports_bar, color: Colors.white),
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        onPressed: () {
+                          alcoholDialog(context);
+                        },
+                      ),
+                    ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.redAccent,
+                      child: IconButton(
+                        iconSize: 50,
+                        icon: Icon(Icons.smoking_rooms, color: Colors.white),
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        onPressed: () {
+                          smokeDialog(context);
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              )),
+          //Counting Area
+          Flexible(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                  fit: FlexFit.tight,
+                  flex: 1,
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        border: Border(
+                      top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                      left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                      right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                      bottom: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                    )),
+                    child:
+                        Center(child: Text(patience.health.toString() + "분")),
+                  )),
+              Flexible(
+                  fit: FlexFit.tight,
+                  flex: 1,
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        border: Border(
+                      top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                      left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                      right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                      bottom: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                    )),
+                    child:
+                        Center(child: Text(patience.alcohol.toString() + "잔")),
+                  )),
+              Flexible(
+                  fit: FlexFit.tight,
+                  flex: 1,
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        border: Border(
+                      top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                      left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                      right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                      bottom: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                    )),
+                    child: Center(
+                      child: Text(patience.smoking.toString() + "개"),
+                    ),
+                  )),
+            ],
+          )),
+        ],
+      ),
+
+      //Bottom
+      bottomNavigationBar: BottomAppBar(
+          child: SizedBox(
+        height: 70,
+        child: IconButtonList(),
+      )),
+    );
+  }
+
+//===========================================================================//
+//function
+//===========================================================================//
+  int asyncTimer() {
+    var a = 1;
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      a++;
+    });
+    return a;
+  }
+
+  void smokeDialog(context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Column(
+            children: [
+              new Text("담배를 피우셨습니까?"),
             ],
           ),
-
-          //Bottom
-          bottomNavigationBar: BottomAppBar(
-              child: SizedBox(
-            height: 70,
-            child: IconButtonList(),
-          )),
-        ));
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  "금연시간이 초기화 됩니다.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text("예"),
+              onPressed: () async {
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                setState(() {
+                  patience.smoking = preferences.getInt('smoke') ?? 0;
+                  patience.smoking = patience.smoking + 1;
+                  preferences.setInt('smoke', patience.smoking);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("아니오"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
   }
+
+  void alcoholDialog(context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Column(
+            children: [
+              new Text("하... 술을 마셨습니까?"),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  "술을 마시면 흡연 욕구가 증가하게 됩니다.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text("예"),
+              onPressed: () async {
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                setState(() {
+                  patience.alcohol = preferences.getInt('alcohol') ?? 0;
+                  patience.alcohol = patience.alcohol + 1;
+                  preferences.setInt('alcohol', patience.alcohol);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("아니오"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void healthDialog(context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Column(
+            children: [
+              new Text("운동을 하셨습니까?"),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  "건강해지셨습니다.\n30분의 운동량이 추가됩니다.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text("예"),
+              onPressed: () async {
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                setState(() {
+                  patience.health = preferences.getInt('health') ?? 0;
+                  patience.health = patience.health + 30;
+                  preferences.setInt('health', patience.health);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("아니오"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+//===========================================================================//
+//===========================================================================//
 }
 
 //===========================================================================//
