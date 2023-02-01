@@ -7,317 +7,357 @@ import 'ClockTimer.dart';
 import 'Patience.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '금연노트',
-      theme: ThemeData(
-          fontFamily: 'SCDream5',
-          scaffoldBackgroundColor: Colors.white /*Color(0xffFFFBE9)*/),
-      home: MainPage(),
-    );
-  }
+  runApp(const MainPage());
 }
 
 class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
   var patience = Patience();
-  Clock clock = new Clock();
+  var clock = Clock();
+  Timer? _timer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _startTimer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //Top
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0.0,
-        title: Text(
-          '금연노트',
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Color(0xffAD8B73),
-      ),
-
-      //Body
-      body: Column(
-        children: [
-          //Picture Area
-          Flexible(
-              fit: FlexFit.tight,
-              flex: 4,
-              child: Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/test12.png'),
-                        fit: BoxFit.fill),
-                    border: Border(
-                        left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                        top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                        right: BorderSide(width: 4, color: Color(0xffE3CAA5)))),
-              )),
-
-          //Smoking Time Area
-          Flexible(
-            flex: 3,
-            child: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  border: Border(
-                left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-              )),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      '금연 시간',
-                      style:
-                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'years      Days      Hours      Mins      Secs',
-                      style: TextStyle(fontSize: 10),
-                    ),
-                    Text(
-                      asyncTimer().toString(),
-                      style: TextStyle(fontSize: 30),
-                    ),
-                    Text(
-                      '이제 위에거를 받아서 몇분마다 상태변화가된다는걸적어준다',
-                      style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.grey),
-                    ),
-                  ],
-                ),
+    return MaterialApp(
+        title: '금연노트',
+        theme: ThemeData(
+            fontFamily: 'SCDream5',
+            scaffoldBackgroundColor: Colors.white /*Color(0xffFFFBE9)*/),
+        home: Builder(builder: (context) {
+          return Scaffold(
+            //Top
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0.0,
+              title: Text(
+                '금연노트',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
+              backgroundColor: Color(0xffAD8B73),
             ),
-          ),
-          //Save Time & Money Area
-          Flexible(
-            flex: 1,
-            child: Row(
+
+            //Body
+            body: Column(
               children: [
-                //Save Money Area
+                //Picture Area
                 Flexible(
+                    fit: FlexFit.tight,
+                    flex: 4,
                     child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            border: Border(
-                          left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                          right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                          top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                        )),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text('절약한 금액'), Text('1000₩')],
-                          ),
-                        ))),
-                //Spent Money Area
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/test12.png'),
+                              fit: BoxFit.fill),
+                          border: Border(
+                              left: BorderSide(
+                                  width: 4, color: Color(0xffE3CAA5)),
+                              top: BorderSide(
+                                  width: 4, color: Color(0xffE3CAA5)),
+                              right: BorderSide(
+                                  width: 4, color: Color(0xffE3CAA5)))),
+                    )),
+
+                //Smoking Time Area
                 Flexible(
-                    child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            border: Border(
-                          left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                          right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                          top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                        )),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text('소비한 금액'), Text('112121₩')],
-                          ),
-                        )))
-              ],
-            ),
-          ),
-          Flexible(
-              flex: 1,
-              child: Row(
-                children: [
-                  //Save Time Area
-                  Flexible(
-                      child: Container(
+                  flex: 3,
+                  child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         border: Border(
                       left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                      right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                      right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
                       top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
                     )),
                     child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('절약한 시간'), Text('12시간15분')],
-                    )),
-                  )),
-                  //Spent Time Area
-                  Flexible(
-                      child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            '금연 시간',
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'years      Days      Hours      Mins      Secs',
+                            style: TextStyle(fontSize: 10),
+                          ),
+                          Text(
+                            clock.timerYear.toString() +
+                                " : " +
+                                clock.timerDays.toString() +
+                                " : " +
+                                clock.timerHour.toString() +
+                                " : " +
+                                clock.timerMins.toString() +
+                                " : " +
+                                clock.timerSecs.toString(),
+                            style: TextStyle(fontSize: 30),
+                          ),
+                          Text(
+                            '이제 위에거를 받아서 몇분마다 상태변화가된다는걸적어준다',
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                //Save Time & Money Area
+                Flexible(
+                  flex: 1,
+                  child: Row(
+                    children: [
+                      //Save Money Area
+                      Flexible(
+                          child: Container(
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                left: BorderSide(
+                                    width: 4, color: Color(0xffE3CAA5)),
+                                right: BorderSide(
+                                    width: 2, color: Color(0xffE3CAA5)),
+                                top: BorderSide(
+                                    width: 4, color: Color(0xffE3CAA5)),
+                              )),
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [Text('절약한 금액'), Text('1000₩')],
+                                ),
+                              ))),
+                      //Spent Money Area
+                      Flexible(
+                          child: Container(
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                left: BorderSide(
+                                    width: 2, color: Color(0xffE3CAA5)),
+                                right: BorderSide(
+                                    width: 4, color: Color(0xffE3CAA5)),
+                                top: BorderSide(
+                                    width: 4, color: Color(0xffE3CAA5)),
+                              )),
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [Text('소비한 금액'), Text('112121₩')],
+                                ),
+                              )))
+                    ],
+                  ),
+                ),
+                Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        //Save Time Area
+                        Flexible(
+                            child: Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               border: Border(
                             left:
-                                BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                            right:
                                 BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                            right:
+                                BorderSide(width: 2, color: Color(0xffE3CAA5)),
                             top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
                           )),
                           child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('낭비된 시간'), Text('123시간')],
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text('절약한 시간'), Text('12시간15분')],
+                          )),
+                        )),
+                        //Spent Time Area
+                        Flexible(
+                            child: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                  left: BorderSide(
+                                      width: 2, color: Color(0xffE3CAA5)),
+                                  right: BorderSide(
+                                      width: 4, color: Color(0xffE3CAA5)),
+                                  top: BorderSide(
+                                      width: 4, color: Color(0xffE3CAA5)),
+                                )),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [Text('낭비된 시간'), Text('123시간')],
+                                  ),
+                                )))
+                      ],
+                    )),
+                //Icon Button Area
+                Flexible(
+                    flex: 2,
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          border: Border(
+                        left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                        right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                        top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                      )),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.indigo,
+                            child: IconButton(
+                              iconSize: 50,
+                              icon: Icon(Icons.fitness_center,
+                                  color: Colors.white),
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                              onPressed: () {
+                                healthDialog(context);
+                              },
                             ),
-                          )))
-                ],
-              )),
-          //Icon Button Area
-          Flexible(
-              flex: 2,
-              child: Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border(
-                  left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                  right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                  top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          ),
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.orangeAccent,
+                            child: IconButton(
+                              iconSize: 50,
+                              icon: Icon(Icons.sports_bar, color: Colors.white),
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                              onPressed: () {
+                                alcoholDialog(context);
+                              },
+                            ),
+                          ),
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.redAccent,
+                            child: IconButton(
+                              iconSize: 50,
+                              icon: Icon(Icons.smoking_rooms,
+                                  color: Colors.white),
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                              onPressed: () {
+                                smokeDialog(context);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+                //Counting Area
+                Flexible(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.indigo,
-                      child: IconButton(
-                        iconSize: 50,
-                        icon: Icon(Icons.fitness_center, color: Colors.white),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          healthDialog(context);
-                        },
-                      ),
-                    ),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.orangeAccent,
-                      child: IconButton(
-                        iconSize: 50,
-                        icon: Icon(Icons.sports_bar, color: Colors.white),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          alcoholDialog(context);
-                        },
-                      ),
-                    ),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.redAccent,
-                      child: IconButton(
-                        iconSize: 50,
-                        icon: Icon(Icons.smoking_rooms, color: Colors.white),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          smokeDialog(context);
-                        },
-                      ),
-                    )
+                    Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              border: Border(
+                            top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                            left:
+                                BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                            right:
+                                BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                            bottom:
+                                BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                          )),
+                          child: Center(
+                              child: Text(patience.health.toString() + "분")),
+                        )),
+                    Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              border: Border(
+                            top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                            left:
+                                BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                            right:
+                                BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                            bottom:
+                                BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                          )),
+                          child: Center(
+                              child: Text(patience.alcohol.toString() + "잔")),
+                        )),
+                    Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              border: Border(
+                            top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                            left:
+                                BorderSide(width: 2, color: Color(0xffE3CAA5)),
+                            right:
+                                BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                            bottom:
+                                BorderSide(width: 4, color: Color(0xffE3CAA5)),
+                          )),
+                          child: Center(
+                            child: Text(patience.smoking.toString() + "개"),
+                          ),
+                        )),
                   ],
-                ),
-              )),
-          //Counting Area
-          Flexible(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                  fit: FlexFit.tight,
-                  flex: 1,
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        border: Border(
-                      top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                      left: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                      right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                      bottom: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                    )),
-                    child:
-                        Center(child: Text(patience.health.toString() + "분")),
-                  )),
-              Flexible(
-                  fit: FlexFit.tight,
-                  flex: 1,
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        border: Border(
-                      top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                      left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                      right: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                      bottom: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                    )),
-                    child:
-                        Center(child: Text(patience.alcohol.toString() + "잔")),
-                  )),
-              Flexible(
-                  fit: FlexFit.tight,
-                  flex: 1,
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        border: Border(
-                      top: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                      left: BorderSide(width: 2, color: Color(0xffE3CAA5)),
-                      right: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                      bottom: BorderSide(width: 4, color: Color(0xffE3CAA5)),
-                    )),
-                    child: Center(
-                      child: Text(patience.smoking.toString() + "개"),
-                    ),
-                  )),
-            ],
-          )),
-        ],
-      ),
+                )),
+              ],
+            ),
 
-      //Bottom
-      bottomNavigationBar: BottomAppBar(
-          child: SizedBox(
-        height: 70,
-        child: IconButtonList(),
-      )),
-    );
+            //Bottom
+            bottomNavigationBar: BottomAppBar(
+                child: SizedBox(
+              height: 70,
+              child: IconButtonList(),
+            )),
+          );
+        }));
   }
 
 //===========================================================================//
 //function
 //===========================================================================//
-  int asyncTimer() {
-    var a = 1;
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      a++;
+  void _startTimer() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        clock.timerSecs++;
+        preferences.setInt('secs', clock.timerSecs);
+        clock.checkTimer();
+      });
     });
-    return a;
   }
 
   void smokeDialog(context) {
@@ -359,6 +399,7 @@ class _MainPageState extends State<MainPage> {
                   patience.smoking = preferences.getInt('smoke') ?? 0;
                   patience.smoking = patience.smoking + 1;
                   preferences.setInt('smoke', patience.smoking);
+                  clock.resetTimer();
                 });
                 Navigator.of(context).pop();
               },
@@ -484,6 +525,7 @@ class _MainPageState extends State<MainPage> {
       },
     );
   }
+
 //===========================================================================//
 //===========================================================================//
 }
