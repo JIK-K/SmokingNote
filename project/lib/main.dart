@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'ClockTimer.dart';
 import 'Date.dart';
 import 'Patience.dart';
+import 'SettingPage.dart';
+import 'StatisticsPage.dart';
 
 void main() {
   runApp(const MainPage());
@@ -13,6 +15,7 @@ void main() {
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _MainPageState();
 }
@@ -21,6 +24,7 @@ class _MainPageState extends State<MainPage> {
   var patience = Patience();
   var clock = Clock();
   var date = Date();
+
   Timer? _timer;
   Timer? _timer2;
 
@@ -114,7 +118,7 @@ class _MainPageState extends State<MainPage> {
                             style: TextStyle(fontSize: 30),
                           ),
                           Text(
-                            '이제 위에거를 받아서 몇분마다 상태변화가된다는걸적어준다',
+                            '박준형 금식한 기간',
                             style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w800,
@@ -552,7 +556,24 @@ class _MainPageState extends State<MainPage> {
 //Widget
 //===========================================================================//
 class IconButtonList extends StatelessWidget {
-  const IconButtonList({Key? key}) : super(key: key);
+  // const IconButtonList({Key? key}) : super(key: key);
+  bool? flagMain;
+  bool? flagStatistics;
+  bool? flagSetting;
+
+  IconButtonList._privateConstructor();
+
+  static final IconButtonList _instance = IconButtonList._internal();
+
+  factory IconButtonList() {
+    return _instance;
+  }
+
+  IconButtonList._internal() {
+    flagMain = false;
+    flagStatistics = true;
+    flagSetting = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -564,7 +585,12 @@ class IconButtonList extends StatelessWidget {
           padding: EdgeInsets.zero,
           constraints: BoxConstraints(),
           onPressed: () {
-            build(context);
+            if (_instance.flagMain == true) {
+              _instance.flagMain = false;
+              _instance.flagStatistics = true;
+              _instance.flagSetting = true;
+              Navigator.pop(context);
+            }
           },
         ),
         IconButton(
@@ -572,7 +598,21 @@ class IconButtonList extends StatelessWidget {
           padding: EdgeInsets.zero,
           constraints: BoxConstraints(),
           onPressed: () {
-            build(context);
+            if (_instance.flagStatistics == true &&
+                _instance.flagSetting == false) {
+              _instance.flagStatistics = false;
+              _instance.flagMain = true;
+              _instance.flagSetting = true;
+              Navigator.pop(context);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Statistics()));
+            } else if (_instance.flagStatistics == true) {
+              _instance.flagStatistics = false;
+              _instance.flagMain = true;
+              _instance.flagSetting = true;
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Statistics()));
+            }
           },
         ),
         IconButton(
@@ -580,7 +620,21 @@ class IconButtonList extends StatelessWidget {
           padding: EdgeInsets.zero,
           constraints: BoxConstraints(),
           onPressed: () {
-            build(context);
+            if (_instance.flagStatistics == false &&
+                _instance.flagSetting == true) {
+              _instance.flagSetting = false;
+              _instance.flagMain = true;
+              _instance.flagStatistics = true;
+              Navigator.pop(context);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => SettingPage()));
+            } else if (_instance.flagSetting == true) {
+              _instance.flagSetting = false;
+              _instance.flagMain = true;
+              _instance.flagStatistics = true;
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => SettingPage()));
+            }
           },
         )
       ],
