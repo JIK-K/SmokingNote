@@ -24,9 +24,6 @@ class Clock {
     _instance.timerHour = preferences.getInt('hour') ?? 0;
     _instance.timerMins = preferences.getInt('mins') ?? 0;
     _instance.timerSecs = preferences.getInt('secs') ?? 0;
-
-    print("다설정해주고감");
-    print("이세카이" + _instance.timerSecs.toString());
   }
 
   void resetTimer() async {

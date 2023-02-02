@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ClockTimer.dart';
+import 'Date.dart';
 import 'Patience.dart';
 
 void main() {
@@ -19,12 +20,15 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var patience = Patience();
   var clock = Clock();
+  var date = Date();
   Timer? _timer;
+  Timer? _timer2;
 
   @override
   void initState() {
     // TODO: implement initState
     _startTimer();
+    _checkDay();
     super.initState();
   }
 
@@ -62,7 +66,7 @@ class _MainPageState extends State<MainPage> {
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage('assets/test12.png'),
+                              image: AssetImage('assets/play_store_512.png'),
                               fit: BoxFit.fill),
                           border: Border(
                               left: BorderSide(
@@ -356,6 +360,20 @@ class _MainPageState extends State<MainPage> {
         clock.timerSecs++;
         preferences.setInt('secs', clock.timerSecs);
         clock.checkTimer();
+      });
+    });
+  }
+
+  void _checkDay() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    DateTime now = DateTime.now();
+    _timer2 = Timer.periodic(Duration(seconds: 30), (timer) {
+      setState(() {
+        if (date.day != now.day) {
+          date.day = now.day;
+          preferences.setInt('resetDay', date.day);
+          patience.resetData();
+        }
       });
     });
   }

@@ -14,14 +14,19 @@ class Patience {
   Patience._internal() {
     updateData();
   }
+
+  void resetData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setInt('health', _instance.health);
+    preferences.setInt('alcohol', _instance.alcohol);
+    preferences.setInt('smoke', _instance.smoking);
+  }
+
   void updateData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _instance.health = preferences.getInt('health') ?? 0;
     _instance.alcohol = preferences.getInt('alcohol') ?? 0;
     _instance.smoking = preferences.getInt('smoke') ?? 0;
-
-    print("다설정해주고감");
-    print("이세카이" + _instance.smoking.toString());
   }
 
   // int get health => _health;
