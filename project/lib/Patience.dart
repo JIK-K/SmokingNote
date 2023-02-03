@@ -17,6 +17,11 @@ class Patience {
 
   void resetData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    _instance.health = 0;
+    _instance.alcohol = 0;
+    _instance.smoking = 0;
+
     preferences.setInt('health', _instance.health);
     preferences.setInt('alcohol', _instance.alcohol);
     preferences.setInt('smoke', _instance.smoking);

@@ -16,5 +16,6 @@ class Date {
   void updateData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _instance.day = preferences.getInt('resetDay') ?? 0;
+    print(_instance.day);
   }
 }

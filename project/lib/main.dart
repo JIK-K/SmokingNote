@@ -371,10 +371,11 @@ class _MainPageState extends State<MainPage> {
   void _checkDay() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     DateTime now = DateTime.now();
-    _timer2 = Timer.periodic(Duration(seconds: 30), (timer) {
+    _timer2 = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         if (date.day != now.day) {
           date.day = now.day;
+          print(date.day);
           preferences.setInt('resetDay', date.day);
           patience.resetData();
         }
