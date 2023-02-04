@@ -38,7 +38,12 @@ class SettingPage extends StatelessWidget {
                             title: Text('이름'),
                             subtitle: Text('박수짝짝'),
                             trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                            onTap: () {},
+                            onTap: () {
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (_) => namePage()));
+                            },
                           ),
                           ListTile(
                             title: Text('성별'),
@@ -90,6 +95,12 @@ class SettingPage extends StatelessWidget {
                       ListTile(
                         title: Text('하루 흡연량'),
                         subtitle: Text('512개비'),
+                        trailing: Icon(Icons.keyboard_arrow_right_sharp),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        title: Text('평균 흡연 시간'),
+                        subtitle: Text('5분'),
                         trailing: Icon(Icons.keyboard_arrow_right_sharp),
                         onTap: () {},
                       ),

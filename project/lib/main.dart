@@ -24,7 +24,6 @@ class _MainPageState extends State<MainPage> {
   var patience = Patience();
   var clock = Clock();
   var date = Date();
-
   Timer? _timer;
   Timer? _timer2;
 
@@ -118,7 +117,7 @@ class _MainPageState extends State<MainPage> {
                             style: TextStyle(fontSize: 30),
                           ),
                           Text(
-                            '박준형 금식한 기간',
+                            clock.message,
                             style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w800,
@@ -364,6 +363,7 @@ class _MainPageState extends State<MainPage> {
         clock.timerSecs++;
         preferences.setInt('secs', clock.timerSecs);
         clock.checkTimer();
+        clock.changeMessage();
       });
     });
   }
@@ -375,7 +375,6 @@ class _MainPageState extends State<MainPage> {
       setState(() {
         if (date.day != now.day) {
           date.day = now.day;
-          print(date.day);
           preferences.setInt('resetDay', date.day);
           patience.resetData();
         }
