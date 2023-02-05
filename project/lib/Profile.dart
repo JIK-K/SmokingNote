@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile {
   var name = "김삼덕";
-  var gender;
+  var gender = "남";
   var birthday;
   var picture;
 
@@ -18,10 +18,25 @@ class Profile {
 
   void updateData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    _instance.name = "김삼덕";
-    // _instance.name = preferences.getString('name') ?? "";
+    _instance.name = preferences.getString('name') ?? "";
     _instance.gender = preferences.getString('gender') ?? "";
     _instance.birthday = preferences.getString('birthday') ?? "";
     // _instance.picture = preferences.getString('name') ?? 0;
+  }
+
+  inputNameData(String inputName) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _instance.name = inputName;
+    preferences.setString('name', inputName);
+  }
+
+  inputGenderData(String inputGender) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _instance.gender = inputGender;
+    preferences.setString('gender', inputGender);
+  }
+
+  inputbirthDayData(String inputBirthday) async {
+    //splitdata
   }
 }

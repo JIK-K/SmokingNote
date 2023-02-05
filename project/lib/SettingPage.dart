@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:project/profile_Screen/birthday.dart';
+import 'package:project/profile_Screen/gender.dart';
 
+import 'Profile.dart';
 import 'main.dart';
+import 'profile_Screen/name.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
   ScrollController _scrollController = ScrollController();
+  var profile = Profile();
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -36,26 +47,36 @@ class SettingPage extends StatelessWidget {
                         children: [
                           ListTile(
                             title: Text('이름'),
-                            subtitle: Text('박수짝짝'),
+                            subtitle: Text(profile.name),
                             trailing: Icon(Icons.keyboard_arrow_right_sharp),
                             onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (_) => namePage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => namePage()));
                             },
                           ),
                           ListTile(
                             title: Text('성별'),
-                            subtitle: Text('남'),
+                            subtitle: Text(profile.gender),
                             trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => genderPage()));
+                            },
                           ),
                           ListTile(
                             title: Text('생일'),
                             subtitle: Text('1872년 1월 1일'),
                             trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => birthdayPage()));
+                            },
                           ),
                           ListTile(
                             title: Text('사진'),
