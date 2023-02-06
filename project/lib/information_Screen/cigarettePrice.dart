@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:project/Profile.dart';
 
-class namePage extends StatefulWidget {
-  const namePage({Key? key}) : super(key: key);
+class cigarettePricePage extends StatefulWidget {
+  const cigarettePricePage({Key? key}) : super(key: key);
 
   @override
-  State<namePage> createState() => _namePageState();
+  State<cigarettePricePage> createState() => _cigarettePricePageState();
 }
 
-class _namePageState extends State<namePage> {
-  final nameController = TextEditingController();
+class _cigarettePricePageState extends State<cigarettePricePage> {
+  final priceController = TextEditingController();
 
   var profile = Profile();
 
@@ -20,7 +21,7 @@ class _namePageState extends State<namePage> {
         centerTitle: true,
         elevation: 0.0,
         title: Text(
-          '이름',
+          '담배 가격',
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -31,18 +32,22 @@ class _namePageState extends State<namePage> {
           Container(
             margin: EdgeInsets.all(10),
             child: TextField(
-              maxLength: 10,
-              controller: nameController,
+              maxLength: 5,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              controller: priceController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: '이름',
+                labelText: '담배 가격',
               ),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(primary: Color(0xffE3CAA5)),
             onPressed: () {
-              profile.inputNameData(nameController.text);
+              profile.inputcigarettePriceData(int.parse(priceController.text));
               Navigator.pop(context);
             },
             child: Text(

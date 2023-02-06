@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/Profile.dart';
 
-class birthdayPage extends StatefulWidget {
-  const birthdayPage({Key? key}) : super(key: key);
+class startSmokingPage extends StatefulWidget {
+  const startSmokingPage({Key? key}) : super(key: key);
 
   @override
-  State<birthdayPage> createState() => _birthdayPageState();
+  State<startSmokingPage> createState() => _startSmokingPageState();
 }
 
-class _birthdayPageState extends State<birthdayPage> {
+class _startSmokingPageState extends State<startSmokingPage> {
   var profile = Profile();
   String _selectedDate = "";
 
@@ -21,7 +21,7 @@ class _birthdayPageState extends State<birthdayPage> {
         centerTitle: true,
         elevation: 0.0,
         title: Text(
-          '생일',
+          '흡연 시작일',
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -77,7 +77,7 @@ class _birthdayPageState extends State<birthdayPage> {
     if (selected != null) {
       setState(() {
         _selectedDate = (DateFormat('yyyy년 M월 d일')).format(selected);
-        profile.inputbirthDayData(_selectedDate);
+        profile.inputStartSmokingData(_selectedDate);
       });
     }
   }

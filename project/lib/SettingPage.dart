@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:project/information_Screen/averageSmoking.dart';
+import 'package:project/information_Screen/cigarettePrice.dart';
+import 'package:project/information_Screen/perDaySmoking.dart';
+import 'package:project/information_Screen/startSmoking.dart';
+import 'package:project/information_Screen/stopSmoking.dart';
 import 'package:project/profile_Screen/birthday.dart';
 import 'package:project/profile_Screen/gender.dart';
 
@@ -69,7 +75,7 @@ class _SettingPageState extends State<SettingPage> {
                           ),
                           ListTile(
                             title: Text('생일'),
-                            subtitle: Text('1872년 1월 1일'),
+                            subtitle: Text(profile.birthday),
                             trailing: Icon(Icons.keyboard_arrow_right_sharp),
                             onTap: () {
                               Navigator.push(
@@ -103,33 +109,60 @@ class _SettingPageState extends State<SettingPage> {
                     children: [
                       ListTile(
                         title: Text('흡연 시작일'),
-                        subtitle: Text('1987년 1월 2일'),
+                        subtitle: Text(profile.startSmoking),
                         trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => startSmokingPage()));
+                        },
                       ),
                       ListTile(
                         title: Text('금연 시작일'),
-                        subtitle: Text('1999년 1월 1일'),
+                        subtitle: Text(profile.stopSmoking),
                         trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => stopSmokingPage()));
+                        },
                       ),
                       ListTile(
                         title: Text('하루 흡연량'),
-                        subtitle: Text('512개비'),
+                        subtitle: Text(profile.perDaySmoking.toString() + "개비"),
                         trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => perDaySmokingPage()));
+                        },
                       ),
                       ListTile(
                         title: Text('평균 흡연 시간'),
-                        subtitle: Text('5분'),
+                        subtitle: Text(profile.averageSmoking.toString() + "분"),
                         trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => averageSmokingPage()));
+                        },
                       ),
                       ListTile(
                         title: Text('담배가격'),
-                        subtitle: Text('5,487,000,000₩'),
+                        subtitle: Text(
+                            NumberFormat.currency(locale: 'ko_KR', symbol: '₩')
+                                .format(profile.cigarettePrice)),
                         trailing: Icon(Icons.keyboard_arrow_right_sharp),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => cigarettePricePage()));
+                        },
                       ),
                     ],
                   ))

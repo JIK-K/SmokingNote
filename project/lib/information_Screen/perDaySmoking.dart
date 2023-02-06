@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:project/Profile.dart';
 
-class namePage extends StatefulWidget {
-  const namePage({Key? key}) : super(key: key);
+class perDaySmokingPage extends StatefulWidget {
+  const perDaySmokingPage({Key? key}) : super(key: key);
 
   @override
-  State<namePage> createState() => _namePageState();
+  State<perDaySmokingPage> createState() => _perDaySmokingPageState();
 }
 
-class _namePageState extends State<namePage> {
-  final nameController = TextEditingController();
+class _perDaySmokingPageState extends State<perDaySmokingPage> {
+  final perDayController = TextEditingController();
 
   var profile = Profile();
 
@@ -20,7 +21,7 @@ class _namePageState extends State<namePage> {
         centerTitle: true,
         elevation: 0.0,
         title: Text(
-          '이름',
+          '하루 흡연량',
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -31,18 +32,22 @@ class _namePageState extends State<namePage> {
           Container(
             margin: EdgeInsets.all(10),
             child: TextField(
-              maxLength: 10,
-              controller: nameController,
+              maxLength: 2,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              controller: perDayController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: '이름',
+                labelText: '하루 흡연량',
               ),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(primary: Color(0xffE3CAA5)),
             onPressed: () {
-              profile.inputNameData(nameController.text);
+              profile.inputperDaySmokingData(int.parse(perDayController.text));
               Navigator.pop(context);
             },
             child: Text(
