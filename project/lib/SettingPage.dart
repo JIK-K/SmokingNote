@@ -84,12 +84,21 @@ class _SettingPageState extends State<SettingPage> {
                                       builder: (_) => birthdayPage()));
                             },
                           ),
-                          ListTile(
-                            title: Text('사진'),
-                            trailing: Image.asset('assets/play_store_512.png',
-                                height: 45, width: 45),
-                            onTap: () {},
-                          ),
+                          // ListTile(
+                          //   title: Text('사진'),
+                          //   trailing: Image.asset('assets/picture.png',
+                          //       height: 45, width: 45),
+                          //   onTap: () async {
+                          //     var picker = ImagePicker();
+                          //     var image = await picker.pickImage(
+                          //         source: ImageSource.gallery);
+                          //     if (image != null) {
+                          //       setState(() {
+                          //         picture.userHomeImage = File(image.path);
+                          //       });
+                          //     }
+                          //   },
+                          // ),
                         ],
                       ))
                 ],

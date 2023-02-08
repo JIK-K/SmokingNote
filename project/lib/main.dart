@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage> {
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage('assets/play_store_512.png'),
+                              image: AssetImage('assets/picture.png'),
                               fit: BoxFit.fill),
                           border: Border(
                               left: BorderSide(
