@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ClockTimer.dart';
 import 'Date.dart';
 import 'Patience.dart';
+import 'Profile.dart';
 import 'SettingPage.dart';
 import 'StatisticsPage.dart';
 
@@ -24,6 +27,7 @@ class _MainPageState extends State<MainPage> {
   var patience = Patience();
   var clock = Clock();
   var date = Date();
+  var profile = Profile();
   Timer? _timer;
   Timer? _timer2;
 
@@ -38,6 +42,14 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('ko', 'KR'),
+        ],
         title: '금연노트',
         theme: ThemeData(
             fontFamily: 'SCDream5',
@@ -150,7 +162,12 @@ class _MainPageState extends State<MainPage> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: [Text('절약한 금액'), Text('1000₩')],
+                                  children: [
+                                    Text('절약한 금액'),
+                                    Text(NumberFormat.currency(
+                                            locale: 'ko_KR', symbol: '₩')
+                                        .format(profile.savings))
+                                  ],
                                 ),
                               ))),
                       //Spent Money Area
@@ -170,7 +187,12 @@ class _MainPageState extends State<MainPage> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: [Text('소비한 금액'), Text('112121₩')],
+                                  children: [
+                                    Text('소비한 금액'),
+                                    Text(NumberFormat.currency(
+                                            locale: 'ko_KR', symbol: '₩')
+                                        .format(profile.comsumption))
+                                  ],
                                 ),
                               )))
                     ],
@@ -215,7 +237,10 @@ class _MainPageState extends State<MainPage> {
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: [Text('낭비된 시간'), Text('123시간')],
+                                    children: [
+                                      Text('낭비된 시간'),
+                                      Text(profile.abandonedLife)
+                                    ],
                                   ),
                                 )))
                       ],
@@ -422,6 +447,7 @@ class _MainPageState extends State<MainPage> {
                   patience.smoking = patience.smoking + 1;
                   preferences.setInt('smoke', patience.smoking);
                   clock.resetTimer();
+                  profile.resetProfile();
                 });
                 Navigator.of(context).pop();
               },

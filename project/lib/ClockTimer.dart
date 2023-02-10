@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Profile.dart';
+
 class Clock {
   int timerYear = 0;
   int timerDays = 0;
@@ -8,7 +10,7 @@ class Clock {
   int timerSecs = 0;
 
   var message = "혈압과 맥박이 정상으로 돌아옵니다";
-
+  var profile = Profile();
   Clock._privateConstructor();
   static final Clock _instance = Clock._internal();
 
@@ -55,6 +57,7 @@ class Clock {
     if (_instance.timerMins > 59) {
       _instance.timerMins = 0;
       _instance.timerHour++;
+      profile.saveMoney();
       preferences.setInt('mins', _instance.timerMins);
       preferences.setInt('hour', _instance.timerHour);
     }

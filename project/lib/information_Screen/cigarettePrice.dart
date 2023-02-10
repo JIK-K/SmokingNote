@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project/Profile.dart';
@@ -48,6 +50,10 @@ class _cigarettePricePageState extends State<cigarettePricePage> {
             style: ElevatedButton.styleFrom(primary: Color(0xffE3CAA5)),
             onPressed: () {
               profile.inputcigarettePriceData(int.parse(priceController.text));
+              Timer(Duration(milliseconds: 10), () {
+                profile.spendMoney();
+                profile.spendDay();
+              });
               Navigator.pop(context);
             },
             child: Text(

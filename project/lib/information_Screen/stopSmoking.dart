@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -77,7 +79,16 @@ class _stopSmokingPageState extends State<stopSmokingPage> {
     if (selected != null) {
       setState(() {
         _selectedDate = (DateFormat('yyyy년 M월 d일')).format(selected);
+
+        var convertDate = (DateFormat('yyyyMMdd')).format(selected);
+
+        profile.inputstopSmokingConvert(convertDate);
         profile.inputStopSmokingData(_selectedDate);
+
+        Timer(Duration(milliseconds: 10), () {
+          profile.spendMoney();
+          profile.spendDay();
+        });
       });
     }
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project/Profile.dart';
@@ -49,6 +51,10 @@ class _averageSmokingPageState extends State<averageSmokingPage> {
             onPressed: () {
               profile
                   .inputaverageSmokingData(int.parse(averageController.text));
+              Timer(Duration(milliseconds: 10), () {
+                profile.spendMoney();
+                profile.spendDay();
+              });
               Navigator.pop(context);
             },
             child: Text(
