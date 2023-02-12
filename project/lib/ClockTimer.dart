@@ -58,6 +58,7 @@ class Clock {
       _instance.timerMins = 0;
       _instance.timerHour++;
       profile.saveMoney();
+      profile.saveTime();
       preferences.setInt('mins', _instance.timerMins);
       preferences.setInt('hour', _instance.timerHour);
     }

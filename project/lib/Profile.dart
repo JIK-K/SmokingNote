@@ -16,7 +16,10 @@ class Profile {
   var comsumption = 0;
   var abandonedLife = "100일 1시간 1분";
   var savings = 0;
-  var savingTime = "0일 0시간 0분";
+
+  var savingTime_day = 0;
+  var savingTime_hour = 0;
+  var savingTime_min = 0;
   Profile._privateConstructor();
   static final Profile _instance = Profile._internal();
 
@@ -45,7 +48,9 @@ class Profile {
     _instance.comsumption = preferences.getInt('comsumption') ?? 0;
     _instance.abandonedLife = preferences.getString('abandonedLife') ?? "";
     _instance.savings = preferences.getInt('savings') ?? 0;
-    _instance.savingTime = preferences.getString('savingTime') ?? "";
+    _instance.savingTime_day = preferences.getInt('savingTimeDay') ?? 0;
+    _instance.savingTime_hour = preferences.getInt('savingTimeHour') ?? 0;
+    _instance.savingTime_min = preferences.getInt('savingTimeMin') ?? 0;
   }
 
   //소비한 금액
@@ -101,18 +106,48 @@ class Profile {
     //하루 흡연량 비 가격
     var onePrice = _instance.cigarettePrice / 20;
     int dayPrice = (onePrice * _instance.perDaySmoking).toInt();
-    print((dayPrice / 24).toInt());
     inputsavings((dayPrice / 24).toInt());
+  }
+
+  //절약한 시간
+  saveTime() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    //하루에 담배피는 시간 = OO분
+    int perDay = _instance.perDaySmoking * _instance.averageSmoking;
+
+    if (_instance.savingTime_min > 59) {
+      _instance.savingTime_min = 0;
+      _instance.savingTime_hour = _instance.savingTime_hour + 1;
+      _instance.savingTime_min = (perDay / 24).toInt();
+      inputsavingTimeMin(_instance.savingTime_min);
+      inputsavingTimeHour(_instance.savingTime_hour);
+    }
+    if (_instance.savingTime_hour > 23) {
+      _instance.savingTime_hour = 0;
+      _instance.savingTime_day = _instance.savingTime_day + 1;
+      _instance.savingTime_min = (perDay / 24).toInt();
+      inputsavingTimeMin(_instance.savingTime_min);
+      inputsavingTimeHour(_instance.savingTime_hour);
+      inputsavingTimeDay(_instance.savingTime_day);
+    } else {
+      _instance.savingTime_min = (perDay / 24).toInt();
+      inputsavingTimeMin(_instance.savingTime_min);
+    }
   }
 
   void resetProfile() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     _instance.savings = 0;
-    _instance.savingTime = "";
+    _instance.savingTime_day = 0;
+    _instance.savingTime_hour = 0;
+    _instance.savingTime_min = 0;
 
     preferences.setInt('savings', _instance.savings);
-    preferences.setString('savingTime', _instance.savingTime);
+    preferences.setInt('savingTimeDay', _instance.savingTime_day);
+    preferences.setInt('savingTimeHour', _instance.savingTime_hour);
+    preferences.setInt('savingTimeMin', _instance.savingTime_min);
   }
 
   inputNameData(String inputName) async {
@@ -193,9 +228,21 @@ class Profile {
     preferences.setInt('savings', savings);
   }
 
-  inputsavingTime(String savingTime) async {
+  inputsavingTimeDay(int savingTime) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    _instance.savingTime = savingTime;
-    preferences.setString('savingTime', savingTime);
+    _instance.savingTime_day = savingTime;
+    preferences.setInt('savingTimeDay', savingTime);
+  }
+
+  inputsavingTimeHour(int savingTime) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _instance.savingTime_hour = savingTime;
+    preferences.setInt('savingTimeHour', savingTime);
+  }
+
+  inputsavingTimeMin(int savingTime) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _instance.savingTime_min = savingTime;
+    preferences.setInt('savingTimeMin', savingTime);
   }
 }

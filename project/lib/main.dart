@@ -217,7 +217,15 @@ class _MainPageState extends State<MainPage> {
                           child: Center(
                               child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text('절약한 시간'), Text('12시간15분')],
+                            children: [
+                              Text('절약한 시간'),
+                              Text(profile.savingTime_day.toString() +
+                                  "일 " +
+                                  profile.savingTime_hour.toString() +
+                                  "시간 " +
+                                  profile.savingTime_min.toString() +
+                                  "분")
+                            ],
                           )),
                         )),
                         //Spent Time Area
