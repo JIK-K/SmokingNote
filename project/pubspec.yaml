@@ -36,6 +36,7 @@ dependencies:
   intl: ^0.17.0
   http:
   image_picker:
+  table_calendar: ^3.0.6
 
 
 

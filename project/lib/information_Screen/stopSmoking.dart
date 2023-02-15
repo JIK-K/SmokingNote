@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/Profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../ClockTimer.dart';
 
 class stopSmokingPage extends StatefulWidget {
   const stopSmokingPage({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class stopSmokingPage extends StatefulWidget {
 
 class _stopSmokingPageState extends State<stopSmokingPage> {
   var profile = Profile();
+  var clock = Clock();
   String _selectedDate = "";
 
   @override
@@ -70,6 +74,7 @@ class _stopSmokingPageState extends State<stopSmokingPage> {
   }
 
   Future _selectDate(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -78,6 +83,8 @@ class _stopSmokingPageState extends State<stopSmokingPage> {
     );
     if (selected != null) {
       setState(() {
+        profile.savings = 0;
+
         _selectedDate = (DateFormat('yyyy년 M월 d일')).format(selected);
 
         var convertDate = (DateFormat('yyyyMMdd')).format(selected);
@@ -86,6 +93,22 @@ class _stopSmokingPageState extends State<stopSmokingPage> {
         profile.inputStopSmokingData(_selectedDate);
 
         Timer(Duration(milliseconds: 10), () {
+          //금연 시작한 날부터 현재까지의 날 계산
+          //saving에 들어갈거 계산
+          DateTime stopday = DateTime.parse(profile.stopSmokingConvert);
+          Duration durationDay = DateTime.now().difference(stopday);
+
+          var onePrice = profile.cigarettePrice / 20;
+          int dayPrice = (onePrice * profile.perDaySmoking).toInt();
+          profile.inputsavings((dayPrice * durationDay.inDays).toInt());
+
+          //savingTime에 들어갈거 계산
+          profile.inputsavingTimeDay(durationDay.inDays);
+
+          //clock 변경
+          clock.timerDays = durationDay.inDays;
+          preferences.setInt('days', durationDay.inDays);
+
           profile.spendMoney();
           profile.spendDay();
         });

@@ -106,6 +106,7 @@ class Profile {
     //하루 흡연량 비 가격
     var onePrice = _instance.cigarettePrice / 20;
     int dayPrice = (onePrice * _instance.perDaySmoking).toInt();
+
     inputsavings((dayPrice / 24).toInt());
   }
 
