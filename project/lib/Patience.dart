@@ -5,6 +5,10 @@ class Patience {
   int alcohol = 0;
   int smoking = 0;
 
+  int totalHealth = 0;
+  int totalAlcohol = 0;
+  int totalSmoking = 0;
+
   Patience._privateConstructor();
   static final Patience _instance = Patience._internal();
 
@@ -32,6 +36,10 @@ class Patience {
     _instance.health = preferences.getInt('health') ?? 0;
     _instance.alcohol = preferences.getInt('alcohol') ?? 0;
     _instance.smoking = preferences.getInt('smoke') ?? 0;
+
+    _instance.totalHealth = preferences.getInt('totalHealth') ?? 0;
+    _instance.totalAlcohol = preferences.getInt('totalAlcohol') ?? 0;
+    _instance.totalSmoking = preferences.getInt('totalSmoke') ?? 0;
   }
 
   // int get health => _health;

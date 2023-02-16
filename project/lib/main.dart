@@ -454,6 +454,10 @@ class _MainPageState extends State<MainPage> {
                   patience.smoking = preferences.getInt('smoke') ?? 0;
                   patience.smoking = patience.smoking + 1;
                   preferences.setInt('smoke', patience.smoking);
+
+                  patience.totalSmoking = preferences.getInt('totalSmoke') ?? 0;
+                  patience.totalSmoking = patience.totalSmoking + 1;
+                  preferences.setInt('totalSmoke', patience.totalSmoking);
                   clock.resetTimer();
                   profile.resetProfile();
                 });
@@ -511,6 +515,11 @@ class _MainPageState extends State<MainPage> {
                   patience.alcohol = preferences.getInt('alcohol') ?? 0;
                   patience.alcohol = patience.alcohol + 1;
                   preferences.setInt('alcohol', patience.alcohol);
+
+                  patience.totalAlcohol =
+                      preferences.getInt('totalAlcohol') ?? 0;
+                  patience.totalAlcohol = patience.totalAlcohol + 1;
+                  preferences.setInt('totalAlcohol', patience.totalAlcohol);
                 });
                 Navigator.of(context).pop();
               },
@@ -566,6 +575,10 @@ class _MainPageState extends State<MainPage> {
                   patience.health = preferences.getInt('health') ?? 0;
                   patience.health = patience.health + 30;
                   preferences.setInt('health', patience.health);
+
+                  patience.totalHealth = preferences.getInt('totalHealth') ?? 0;
+                  patience.totalHealth = patience.totalHealth + 1;
+                  preferences.setInt('totalHealth', patience.totalHealth);
                 });
                 Navigator.of(context).pop();
               },
