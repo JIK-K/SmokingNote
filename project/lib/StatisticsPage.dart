@@ -102,7 +102,7 @@ class _StatisticsPageState extends State<Statistics> {
                                 ),
                                 Container(
                                     child: CircleAvatar(
-                                  radius: 40,
+                                  radius: 30,
                                   backgroundColor: Colors.indigo,
                                   child: Text(patience.totalHealth.toString(),
                                       style: TextStyle(
@@ -121,7 +121,7 @@ class _StatisticsPageState extends State<Statistics> {
                                 ),
                                 Container(
                                     child: CircleAvatar(
-                                  radius: 40,
+                                  radius: 30,
                                   backgroundColor: Colors.orangeAccent,
                                   child: Text(patience.totalAlcohol.toString(),
                                       style: TextStyle(
@@ -140,7 +140,7 @@ class _StatisticsPageState extends State<Statistics> {
                                 ),
                                 Container(
                                     child: CircleAvatar(
-                                  radius: 40,
+                                  radius: 30,
                                   backgroundColor: Colors.redAccent,
                                   child: Text(patience.totalSmoking.toString(),
                                       style: TextStyle(

@@ -163,10 +163,16 @@ class _MainPageState extends State<MainPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('절약한 금액'),
-                                    Text(NumberFormat.currency(
-                                            locale: 'ko_KR', symbol: '₩')
-                                        .format(profile.savings))
+                                    Text(
+                                      '절약한 금액',
+                                      style: TextStyle(fontSize: 8),
+                                    ),
+                                    Text(
+                                      NumberFormat.currency(
+                                              locale: 'ko_KR', symbol: '₩')
+                                          .format(profile.savings),
+                                      style: TextStyle(fontSize: 15),
+                                    )
                                   ],
                                 ),
                               ))),
@@ -188,10 +194,16 @@ class _MainPageState extends State<MainPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('소비한 금액'),
-                                    Text(NumberFormat.currency(
-                                            locale: 'ko_KR', symbol: '₩')
-                                        .format(profile.comsumption))
+                                    Text(
+                                      '소비한 금액',
+                                      style: TextStyle(fontSize: 8),
+                                    ),
+                                    Text(
+                                      NumberFormat.currency(
+                                              locale: 'ko_KR', symbol: '₩')
+                                          .format(profile.comsumption),
+                                      style: TextStyle(fontSize: 15),
+                                    )
                                   ],
                                 ),
                               )))
@@ -218,13 +230,19 @@ class _MainPageState extends State<MainPage> {
                               child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('절약한 시간'),
-                              Text(profile.savingTime_day.toString() +
-                                  "일 " +
-                                  profile.savingTime_hour.toString() +
-                                  "시간 " +
-                                  profile.savingTime_min.toString() +
-                                  "분")
+                              Text(
+                                '절약한 시간',
+                                style: TextStyle(fontSize: 8),
+                              ),
+                              Text(
+                                profile.savingTime_day.toString() +
+                                    "일 " +
+                                    profile.savingTime_hour.toString() +
+                                    "시간 " +
+                                    profile.savingTime_min.toString() +
+                                    "분",
+                                style: TextStyle(fontSize: 15),
+                              )
                             ],
                           )),
                         )),
@@ -246,8 +264,14 @@ class _MainPageState extends State<MainPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('낭비된 시간'),
-                                      Text(profile.abandonedLife)
+                                      Text(
+                                        '낭비된 시간',
+                                        style: TextStyle(fontSize: 8),
+                                      ),
+                                      Text(
+                                        profile.abandonedLife,
+                                        style: TextStyle(fontSize: 15),
+                                      )
                                     ],
                                   ),
                                 )))
